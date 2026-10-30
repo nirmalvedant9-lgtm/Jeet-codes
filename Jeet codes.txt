@@ -1,0 +1,196 @@
+1. Addition using Direct Addressing 
+
+ORG 0000H
+LJMP START
+
+ORG 0030H
+START:
+
+    ; Load Data
+    MOV R0, #55H
+    MOV R1, #33H
+
+    ; Addition
+    MOV A, R0
+    ADD A, R1
+    MOV R3, A
+
+    ; Subtraction
+    MOV A, R0
+    CLR C
+    SUBB A, R1
+    MOV R4, A
+
+HERE: SJMP HERE
+
+END
+
+2. Addition using Direct Addressing
+
+ORG 0000H
+LJMP START
+
+ORG 0030H
+START:
+
+    ; Pre-load sample data
+    MOV 30H, #55H
+    MOV 31H, #33H
+
+    ; Addition
+    MOV A, 30H
+    ADD A, 31H
+    MOV 32H, A
+
+HERE: SJMP HERE
+
+END
+
+
+3. Addition using Indirect Addressing
+
+ORG 0000H
+LJMP START
+
+ORG 0030H
+START:
+
+    ; Pre-load sample data
+    MOV 30H, #55H
+    MOV 31H, #33H
+
+    ; Setup Pointers
+    MOV R0, #30H
+    MOV R1, #31H
+
+    ; Addition
+    MOV A, @R0
+    ADD A, @R1
+
+    MOV R0, #32H
+    MOV @R0, A
+
+HERE: SJMP HERE
+
+END
+
+4. Subtraction using Direct Addressing
+
+ORG 0000H
+LJMP START
+
+ORG 0030H
+START:
+
+    ; Pre-load sample data
+    MOV 30H, #55H
+    MOV 31H, #33H
+
+    ; Subtraction
+    MOV A, 30H
+    CLR C
+    SUBB A, 31H
+    MOV 33H, A
+
+HERE: SJMP HERE
+
+END
+
+5. Subtraction using Indirect Addressing
+ORG 0000H
+LJMP START
+
+ORG 0030H
+START:
+
+    ; Pre-load sample data
+    MOV 30H, #55H
+    MOV 31H, #33H
+
+    ; Setup Pointers
+    MOV R0, #30H
+    MOV R1, #31H
+
+    ; Subtraction
+    MOV A, @R0
+    CLR C
+    SUBB A, @R1
+
+    MOV R0, #33H
+    MOV @R0, A
+
+HERE: SJMP HERE
+
+END
+
+6. Multiplication Using Direct Addressing
+ORG 0000H
+
+MOV 30H, #25H
+MOV A, 30H          ; Load first number (37 decimal = 25H)
+
+MOV 31H, #15H
+MOV B, 31H          ; Load second number (21 decimal = 15H)
+
+MUL AB              ; A*B → 16-bit result in A (low) and B (high)
+
+MOV R2, A           ; Store low byte in R2
+MOV R3, B           ; Store high byte in R3
+
+END
+
+7. Division Using Direct Addressing
+ORG 0000H
+
+MOV 30H, #25H
+MOV A, 30H          ; Load dividend (37 decimal = 25H)
+
+MOV 31H, #05H
+MOV B, 31H          ; Load divisor (5 decimal = 05H)
+
+DIV AB              ; 37 ÷ 5 → A = 07H (Quotient), B = 02H (Remainder)
+
+MOV R6, A           ; Store quotient
+MOV R7, B           ; Store remainder
+
+END
+
+8. Multiplication Using Indirect Addressing
+ORG 0000H
+
+MOV 40H, #25H       ; 25H number loaded to memory 40H
+MOV 41H, #15H       ; 15H number loaded to memory 41H
+
+MOV R0, #40H        ; R0 points to 40H memory
+MOV R1, #41H        ; R1 points to 41H memory
+
+MOV A, @R0          ; A gets 25H value from memory location 40H
+MOV B, @R1          ; B gets 15H value from memory location 41H
+
+MUL AB              ; Multiply A and B, result stored in A and B
+
+MOV R2, A           ; Store lower byte
+MOV R3, B           ; Store higher byte
+
+END
+
+9. Division Using Indirect Addressing
+ORG 0000H
+
+MOV 40H, #25H       ; Dividend 25H stored at memory 40H
+MOV 41H, #05H       ; Divisor 05H stored at memory 41H
+
+MOV R0, #40H        ; R0 points to 40H memory
+MOV R1, #41H        ; R1 points to 41H memory
+
+MOV A, @R0          ; Load dividend, A = 25H
+MOV B, @R1          ; Load divisor, B = 05H
+
+DIV AB              ; Divide A by B (25H / 05H)
+
+MOV R6, A           ; Store quotient
+MOV R7, B           ; Store remainder
+
+END
+
+
